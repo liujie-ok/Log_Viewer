@@ -29,16 +29,16 @@
   .chart-container {
      position: relative;
      margin: auto;
-     height: 90vh;
-     width: 85vw;
+     height: 75vh;
+     width: 95vw;
   }
   .baseGraph {
      height: 75vh;
   }
   
-  .AFRGraph {
+  /* .AFRGraph {
      height: 0.1vh;
-  }
+  } */
   </style>
 </head>
 <body>
@@ -48,11 +48,11 @@
   <div class="well">
     <div class="row">
       <form class="form-inline">
-        <div class="form-group"><label> log file: </label>
+        <div class="form-group">
 		<input type="file" id="files"  class="form-control" accept=".csv" required />            
         </div>
         <div class="form-group">
-          <button type="submit" id="submit-file" class="btn btn-primary">Generate Graphs</button>
+          <button type="submit" id="submit-file" class="btn btn-primary">显示</button>
         </div>
       </form>
     </div>
@@ -70,12 +70,12 @@
 <!--
   https://darkmodejs.learn.uno/
 -->
-<script>
+<!-- <script>
   function addDarkmodeWidget() {
     new Darkmode().showWidget();
   }
   window.addEventListener('load', addDarkmodeWidget);
-</script>
+</script> -->
 
 <!--
   I could likely label this better
@@ -279,7 +279,7 @@ const datasets = [{
     label: GenericSensors._6.SensorName,
     data: GenericSensors._6.Values,
     fill: false,
-    borderColor: '#e31a1c',
+    borderColor: '#9fc5e8',
 	yAxisID: 'left-y-axis',
 	hidden: true
   },

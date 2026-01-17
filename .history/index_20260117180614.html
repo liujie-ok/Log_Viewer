@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cn">
 <head>
   <meta charset="UTF-8">
-  <title>RomRaider Log Viewer</title>
+  <title>Log Viewer</title>
   
   
   <!-- External JS Sources -->
@@ -29,56 +29,30 @@
   .chart-container {
      position: relative;
      margin: auto;
-     height: 90vh;
-     width: 85vw;
+     height: 75vh;
+     width: 95vw;
   }
   .baseGraph {
-     height: 60vh;
+     height: 75vh;
   }
   
-  .AFRGraph {
-     height: 1vh;
-  }
+  /* .AFRGraph {
+     height: 0.1vh;
+  } */
   </style>
 </head>
 <body>
 <div class="container" style="padding:10px 10px;">
-  <h1>RomRaider Log Viewer</h1>
+  <h1>Log Viewer</h1>
   <div id="header"></div>
   <div class="well">
     <div class="row">
       <form class="form-inline">
-        <div class="form-group"><label> RomRaider log file: </label>
-        
-		<input type="file" id="files"  class="form-control" accept=".csv" required />
-        <br>
-		<label> Lambda <--> AFR Options: </label>
-		<br>
-            <label for="LambdaConvertTo">Convert To:</label>
-              <select name="LambdaConvertTo" id="LambdaConvertTo">
-                <option value="AFR">AFR</option>
-                <option value="LAMBDA">Lambda</option>
-                <option value="OFF">Off</option>
-              </select>
-		    <label for="LambdaConvertVal">Fuel Type:</label>
-              <select name="LambdaConvertVal" id="LambdaConvertVal">
-                <option value="Gas">Gas</option>
-                <option value="E85">E85</option>
-                <option value="E100">E100</option>
-				<option value="Methanol">Methanol</option>
-				<option value="Diesel">Diesel</option>
-              </select>
-        </div>
-        <br>
-        <label> Time-Based Zoom Options: </label>
-		<br>
-            <label for="StartMin">Start Minute:</label>
-               <input type="number" name="StartMin" id="StartMin"/>
-		    <label for="EndMin">Ending Minute:</label>
-               <input type="number" name="EndMin" id="EndMin"/>
+        <div class="form-group">
+		<input type="file" id="files"  class="form-control" accept=".csv" required />            
         </div>
         <div class="form-group">
-          <button type="submit" id="submit-file" class="btn btn-primary">Generate Graphs</button>
+          <button type="submit" id="submit-file" class="btn btn-primary">显示</button>
         </div>
       </form>
     </div>
@@ -89,19 +63,19 @@
   <div class="baseGraph">
     <canvas id="baseGraph"></canvas>
   </div>
-  <div class="AFRGraph">
+  <!-- <div class="AFRGraph">
     <canvas id="AFRGraph"></canvas>
-  </div>
+  </div> -->
 </div>
 <!--
   https://darkmodejs.learn.uno/
 -->
-<script>
+<!-- <script>
   function addDarkmodeWidget() {
     new Darkmode().showWidget();
   }
   window.addEventListener('load', addDarkmodeWidget);
-</script>
+</script> -->
 
 <!--
   I could likely label this better
@@ -119,10 +93,6 @@
     'left-y-axis': {
       type: 'linear',
       position: 'left'
-    },
-    'right-y-axis': {
-      type: 'linear',
-      position: 'right'
     }
   },
   datasets: {
@@ -195,11 +165,11 @@
     e.preventDefault();
     if(TheBaseGraph) ResetGraphs();
 
-	StartMin = document.getElementById('StartMin').value;
-	EndMin = document.getElementById('EndMin').value;
+	StartMin = 0;
+	EndMin = 0;
 
-	LambdaConvertTo = document.getElementById('LambdaConvertTo').value;
-	switch(document.getElementById('LambdaConvertVal').value) {
+	LambdaConvertTo = "AFR";
+	switch("Gas") {
 	  case "Gas":
 	    LambdaConvertVal = LambdaAFR.Gas;
 		break;
@@ -251,7 +221,7 @@
     } else if (EndMin <= 0){
 	  sensorcnt = 0;
       if(i+2 >= data.length){
-        document.getElementById('EndMin').value = cells[0]/60000;
+        EndMin = cells[0]/60000;
       }
       cells.forEach(LogSensors);
       timelabels.push(cells[0]);
@@ -269,9 +239,9 @@ const datasets = [{
     label: GenericSensors._1.SensorName,
     data: GenericSensors._1.Values,
     fill: false,
-    borderColor: '#a6cee3',
+    borderColor: '#6a329f',
 	yAxisID: 'left-y-axis',
-	hidden: true
+	hidden: false
   },
   {
     label: GenericSensors._2.SensorName,
@@ -301,7 +271,7 @@ const datasets = [{
     label: GenericSensors._5.SensorName,
     data: GenericSensors._5.Values,
     fill: false,
-    borderColor: '#fb9a99',
+    borderColor: '#cc0000',
 	yAxisID: 'left-y-axis',
 	hidden: true
   },
@@ -309,7 +279,7 @@ const datasets = [{
     label: GenericSensors._6.SensorName,
     data: GenericSensors._6.Values,
     fill: false,
-    borderColor: '#e31a1c',
+    borderColor: '#9fc5e8',
 	yAxisID: 'left-y-axis',
 	hidden: true
   },
